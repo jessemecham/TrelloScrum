@@ -1,7 +1,7 @@
 {
-	"name": "Scrum for Trello",
-	"version": "1.94",
-	"description": "Adds Scrum to your Trello",
+	"name": "Scrum for Trello for YNAB",
+	"version": "0.1",
+	"description": "Adds Scrum to our Trello for YNAB",
 	"content_scripts": [
 		{
 			"matches": ["https://trello.com/*"],
