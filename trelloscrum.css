@@ -13,7 +13,7 @@
 
 .list-total .cpoints{
 	margin-right:3px;
-	opacity: 0.5;
+	color:#CC0000;
 }
 
 .list .list-title h2 {
@@ -31,9 +31,9 @@
 	background-color: #006580 !important;
 	border-color: #005b72 !important;
 	border-bottom-color: #004b5f !important;
-	color: #e1fafb !important;
+	color: #ffffff !important;
 	float: right;
-	text-align: right;
+	text-align: center;
 	background-repeat: no-repeat !important;
 	background-position: 3px 3px !important;
 	padding: 0 4px 0 17px !important;
@@ -77,7 +77,7 @@
 }
 
 .badge-points.consumed{
-	opacity: 0.5;
+	background-color: #CC0000 !important;
 }
 .badge:empty{ display:none !important; }
 
