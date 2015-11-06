@@ -45,7 +45,7 @@ var obsConfig = { childList: true, characterData: true, attributes: false, subtr
 //default story point picker sequence (can be overridden in the Scrum for Trello 'Settings' popup)
 var _pointSeq = ['?', 0, .5, 1, 2, 3, 5, 8, 13, 21];
 //attributes representing points values for card
-var _pointsAttr = ['cpoints', 'points'];
+var _pointsAttr = ['bpoints', 'cpoints', 'points'];
 
 // All settings and their defaults.
 var S4T_SETTINGS = [];
@@ -60,6 +60,7 @@ refreshSettings(); // get the settings right away (may take a little bit if usin
 //internals
 var reg = /((?:^|\s))\((\x3f|\d*\.?\d+)(\))\s?/m, //parse regexp- accepts digits, decimals and '?', surrounded by ()
     regC = /((?:^|\s))\[(\x3f|\d*\.?\d+)(\])\s?/m, //parse regexp- accepts digits, decimals and '?', surrounded by []
+    regB = /((?:^|\s))\{(\x3f|\d*\.?\d+)(\})\s?/m, //parse regexp- accepts digits, decimals and '?', surrounded by {}
     iconUrl, pointsDoneUrl,
 	flameUrl, flame18Url,
 	scrumLogoUrl, scrumLogo18Url;
@@ -634,7 +635,7 @@ function ListCard(el, identifier){
 				if(titleTextContent != parsedTitle){
 					$title.data('orig-title', titleTextContent); // store the non-mutilated title (with all of the estimates/time-spent in it).
 				}
-				parsedTitle = $.trim(el._title.replace(reg,'$1').replace(regC,'$1'));
+				parsedTitle = $.trim(el._title.replace(reg,'$1').replace(regC,'$1').replace(regB, '$1'));
 				el._title = parsedTitle;
 				$title.data('parsed-title', parsedTitle); // save it to the DOM element so that both badge-types can refer back to it.
 				if($title[0].childNodes.length > 1){
