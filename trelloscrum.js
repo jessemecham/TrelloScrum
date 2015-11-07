@@ -182,48 +182,6 @@ var recalcTotalsObserver = new CrossBrowser.MutationObserver(function(mutations)
 recalcTotalsObserver.observe(document.body, obsConfig);
 
 var ignoreClicks = function(){ return false; };
-function showBurndown()
-{
-    $('body').addClass("window-up");
-    $('.window').css("display", "block").css("top", "50px");
-
-	// Figure out the current user and board.
-	$memberObj = $('.header-user .member-avatar');
-	if($memberObj.length == 0){
-		$memberObj = $('.header-user .member-initials'); // if the user doesn't have an icon
-	}
-	var username = $memberObj.attr('title').match(/\(([^\)\(]*?)\)$/)[1];
-
-	// Find the short-link board name, etc. so that the back-end can figure out what board this is.
-	var shortLink = document.location.href.match(/b\/([A-Za-z0-9]{8})\//)[1];
-	var boardName = "";
-	boardName = $('.board-name span.text').text().trim();
-
-	// Build the dialog DOM elements. There are no unescaped user-provided strings being used here.
-	var clearfix = $('<div/>', {class: 'clearfix'});
-	var windowHeaderUtils = $('<div/>', {class: 'window-header-utils dialog-close-button'}).append( $('<a/>', {class: 'icon-lg icon-close dark-hover js-close-window', href: '#', title:'Close this dialog window.'}) );
-	var iFrameWrapper = $('<div/>', {style: 'padding:10px; padding-top: 13px;'});
-    var flameIcon = $('<img/>', {style: 'position:absolute; margin-left: 20px; margin-top:15px;', src:flame18Url});
-
-	var actualIFrame = $('<iframe/>', {frameborder: '0',
-						 style: 'width: 670px; height: 512px;',
-						 id: 'burndownFrame',
-						 src: "https://www.burndownfortrello.com/s4t_burndownPopup.php?username="+encodeURIComponent(username)+"&shortLink="+encodeURIComponent(shortLink)+"&boardName="+encodeURIComponent(boardName)
-						});
-	var loadingFrameIndicator = $('<span/>', {class: 'js-spinner', id: 'loadingBurndownFrame', style: 'position: absolute; left: 225px; top: 260px;'}).append($('<span/>', {class: 'spinner left', style: 'margin-right:4px;'})).append("Loading 'Burndown for Trello'...");
-	iFrameWrapper.append(loadingFrameIndicator); // this will show that the iframe is loading... until it loads.
-	iFrameWrapper.append(actualIFrame);
-    actualIFrame.css("visibility", "hidden");
-	$windowWrapper = $('.window-wrapper');
-    $windowWrapper.click(ignoreClicks);
-	$windowWrapper.empty().append(clearfix).append(flameIcon).append(windowHeaderUtils).append(iFrameWrapper);
-	$('#burndownFrame').load(function(){ $('#loadingBurndownFrame').remove(); actualIFrame.css("visibility", "visible"); }); // once the iframe loads, get rid of the loading indicator.
-	$('.window-header-utils a.js-close-window').click(hideBurndown);
-    $(window).bind('resize', repositionBurndown);
-    $('.window-overlay').bind('click', hideBurndown);
-
-    repositionBurndown();
-}
 
 var settingsFrameId = 'settingsFrame';
 function showSettings()
@@ -380,22 +338,6 @@ function hideBurndown()
 	$('.window-header-utils a.js-close-window').unbind('click', hideBurndown);
 	$('.window-wrapper').unbind('click', ignoreClicks);
     $('.window-overlay').unbind('click', hideBurndown);
-}
-
-function repositionBurndown()
-{
-    // NOTE: With the most recent Trello update, I don't think we have to position the window manually anymore.
-    //windowWidth = $(window).width();
-    //if(windowWidth < 0) // todo change this to a n actual number (probably 710 or so)
-    //{
-    //    // todo shrink our iframe to an appropriate size.  contents should wrap
-    //}
-    //else
-    //{
-    //    burndownWindowWidth = 690;
-    //    leftPadding = (windowWidth - burndownWindowWidth) / 2.0;
-    //    $('.window').css("left", leftPadding);
-    //}
 }
 
 //calculate board totals
