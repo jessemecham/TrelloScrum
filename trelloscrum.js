@@ -181,39 +181,6 @@ var recalcTotalsObserver = new CrossBrowser.MutationObserver(function(mutations)
 });
 recalcTotalsObserver.observe(document.body, obsConfig);
 
-// Refreshes the link to the Burndown Chart dialog.
-function updateBurndownLink(){
-    // Add the link for Burndown Charts
-    //$('.s4tLink').remove();
-    if($('.s4tLink').length === 0){
-		var buttons = "";
-
-		// Link for Burndown Charts
-		var linkSetting = S4T_SETTINGS[SETTING_NAME_LINK_STYLE];
-		if(linkSetting !== 'none'){
-			buttons += "<a id='burndownLink' class='s4tLink quiet ed board-header-btn dark-hover' href='#'>";
-			buttons += "<span class='icon-sm board-header-btn-icon'><img src='"+flameUrl+"' width='12' height='12'/></span>";
-			if(linkSetting !== 'icon'){
-				buttons += "<span class='text board-header-btn-text'>Burndown Chart</span>";
-			}
-			buttons += "</a>";
-		}
-		// Link for settings
-		buttons += "<a id='scrumSettingsLink' class='s4tLink quiet ed board-header-btn dark-hover' href='#'>";
-		buttons += "<span class='icon-sm board-header-btn-icon'><img src='"+scrumLogoUrl+"' width='12' height='12' title='Settings: Scrum for Trello'/></span>";
-		//buttons += "<span class='text board-header-btn-text'>Settings</span>"; // too big :-/ icon only for now
-		buttons += "</a>";
-		var showOnLeft = true;
-		if(showOnLeft){
-			$('.board-header-btns.mod-left').last().after(buttons);
-		} else {
-			$('.board-header-btns.mod-right,#board-header a').last().after(buttons);
-		}
-        $('#burndownLink').click(showBurndown);
-		$('#scrumSettingsLink').click(showSettings);
-    }
-}
-
 var ignoreClicks = function(){ return false; };
 function showBurndown()
 {
@@ -451,7 +418,6 @@ function computeTotal(){
 			$total.append(scoreSpan);
 		}
 
-        updateBurndownLink(); // the burndown link and the total are on the same bar... so now they'll be in sync as to whether they're both there or not.
 	});
 };
 
@@ -587,6 +553,14 @@ function ListCard(el, identifier){
 		$badge=$('<div class="badge badge-points point-count" />'),
 		to,
 		to2;
+
+    if(identifier=='cpoints') {
+      regexp=regC;
+    } else if (identifier=='bpoints') {
+      regexp=regB;
+    } else {
+      regexp=reg;
+    }
 
 	// MutationObservers may send a bunch of similar events for the same card (also depends on browser) so
 	// refreshes are debounced now.
@@ -772,7 +746,6 @@ function onSettingsUpdated(){
 
 	// Refresh the links because link-settings may have changed.
 	$('.s4tLink').remove();
-	updateBurndownLink();
 } // end onSettingsUpdated()
 
 /**
