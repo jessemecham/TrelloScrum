@@ -176,29 +176,6 @@ var ignoreClicks = function(){ return false; };
 // var settingsFrameId = 'settingsFrame';
 // function showSettings()
 
-//calculate board totals
-var ctto;
-function computeTotal(){
-	clearTimeout(ctto);
-	ctto = setTimeout(function(){
-		var $title = $('.board-header-btns.mod-right,#board-header a');
-		var $total = $title.children('.list-total').empty();
-		if ($total.length == 0)
-			$total = $('<span/>', {class: "list-total"}).appendTo($title);
-
-		for (var i in _pointsAttr){
-			var score = 0,
-				attr = _pointsAttr[i];
-			$('#board .list-total .'+attr).each(function(){
-				score+=parseFloat(this.textContent)||0;
-			});
-			var scoreSpan = $('<span/>', {class: attr}).text(round(score)||'');
-			$total.append(scoreSpan);
-		}
-
-	});
-};
-
 //calculate list totals
 var lto;
 function calcListPoints(){
@@ -260,7 +237,6 @@ function List(el){
 				var scoreTruncated = round(score);
 				var scoreSpan = $('<span/>', {class: attr}).text( (scoreTruncated>0) ? scoreTruncated : '' );
 				$total.append(scoreSpan);
-				computeTotal();
 			}
 		});
 	};
