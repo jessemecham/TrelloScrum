@@ -310,8 +310,12 @@ function ListCard(el, identifier){
 
     if(identifier=='cpoints') {
       regexp=regC;
+      consumed=true;
     } else if (identifier=='bpoints') {
       regexp=regB;
+      var bonus=true;
+      //log
+      //console.log("regB running!")
     } else {
       regexp=reg;
     }
@@ -352,6 +356,7 @@ function ListCard(el, identifier){
 				$badge
 					.text(that.points)
 					[(consumed?'add':'remove')+'Class']('consumed')
+          [(bonus?'add':'remove')+'Class']('bonus')
 					.attr({title: 'This card has '+that.points+ (consumed?' consumed':'')+' storypoint' + (that.points == 1 ? '.' : 's.')})
 					.prependTo($card.find('.badges'));
 

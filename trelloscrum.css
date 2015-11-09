@@ -84,6 +84,9 @@
 .badge-points.consumed{
 	background-color: #CC0000 !important;
 }
+.badge-points.bonus{
+	background-color: #00CC00 !important;
+}
 .badge:empty{ display:none !important; }
 
 /* == b4t integration==*/
